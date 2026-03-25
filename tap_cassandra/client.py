@@ -88,9 +88,13 @@ class CassandraConnector:
         """
         
         if self._profile is None:
+            consistency_levels = {
+                True: ConsistencyLevel.LOCAL_ONE,
+                False: ConsistencyLevel.LOCAL_QUORUM,
+            }
             self._profile = ExecutionProfile(
                 retry_policy=RetryPolicy(),
-                consistency_level=ConsistencyLevel.LOCAL_QUORUM,
+                consistency_level=consistency_levels[self.config.get('allow_local_one_consistency')],
                 serial_consistency_level=ConsistencyLevel.LOCAL_SERIAL,
                 request_timeout=self.config.get('request_timeout'),
                 row_factory=dict_factory,

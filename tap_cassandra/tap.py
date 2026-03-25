@@ -99,6 +99,13 @@ class TapCassandra(SQLTap):
             default=False,
             description="When set to `True` skipping partitions when faced ReadTimout or ReadFailure errors.",
         ),
+        th.Property(
+            "allow_local_one_consistency",
+            th.BooleanType,
+            required=False,
+            default=False,
+            description="When set to `True`, uses LOCAL_ONE consistency level instead of LOCAL_QUORUM. Useful when a replica is unavailable.",
+        ),
     ).to_dict()
 
     @property
